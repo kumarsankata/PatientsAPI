@@ -23,7 +23,7 @@ namespace Patients.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Gets all patients list
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -60,6 +60,11 @@ namespace Patients.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new patient
+        /// </summary>
+        /// <param name="patientRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult AddPatient([FromBody]PatientRequestDto patientRequest)
         {
@@ -67,6 +72,10 @@ namespace Patients.API.Controllers
             {
                 if (patientRequest == null)
                     return BadRequest();
+
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
                 var patient = new Patient()
                 {
                     Id = Guid.NewGuid(),
@@ -93,6 +102,36 @@ namespace Patients.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates a given patient
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="patientRequest"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public IActionResult UpdatePatient(Guid Id, [FromBody] PatientRequestDto patientRequest)
+        {
+            var patient = _patientRepository.GetPatientById(Id);
+
+            if (patient == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            patient.First_Name = patientRequest.First_Name;
+            patient.Last_Name = patientRequest.Last_Name;
+            patient.Gender = patientRequest.Gender;
+            patient.Date_Of_Birth = patientRequest.Date_Of_Birth;
+            patient.Email = patientRequest.Email;
+            patient.Phone = patientRequest.Phone;
+            patient.Is_Active = patientRequest.Is_Active;
+            patient.Updated_At = DateTime.UtcNow;
+
+            _patientRepository.UpdatePatient(Id, patient);
+
+            return Ok(patient);
+        }
 
     }
 }

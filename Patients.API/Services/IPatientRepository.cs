@@ -11,7 +11,11 @@ namespace Patients.API.Services
     {
         List<Patient> GetPatientList();
 
+        Patient GetPatientById(Guid patientId);
+
         bool AddPatient(Patient patientRequest);
+
+        bool UpdatePatient(Guid patientId, Patient patientRequest);
     }
 
 }

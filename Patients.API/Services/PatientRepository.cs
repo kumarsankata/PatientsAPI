@@ -31,5 +31,23 @@ namespace Patients.API.Services
                 return false;
         }
 
+
+        public Patient GetPatientById(Guid patientId)
+        {
+            var patient = _dbContext.Patients.Where(p => p.Id == patientId).FirstOrDefault();
+            return patient;
+        }
+
+
+        public bool UpdatePatient(Guid patientId, Patient patientRequest)
+        {
+            var patient = GetPatientById(patientId);
+            patient = patientRequest;
+
+            if (_dbContext.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
     }
 }
