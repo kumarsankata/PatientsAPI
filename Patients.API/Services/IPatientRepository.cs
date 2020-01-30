@@ -10,5 +10,8 @@ namespace Patients.API.Services
     public interface IPatientRepository
     {
         List<Patient> GetPatientList();
+
+        bool AddPatient(Patient patientRequest);
     }
+
 }

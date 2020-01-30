@@ -22,6 +22,14 @@ namespace Patients.API.Services
             return _dbContext.Patients.OrderBy(p => p.First_Name).ToList();
         }
 
+        public bool AddPatient(Patient patientRequest)
+        {
+            _dbContext.Patients.Add(patientRequest);
+            if (_dbContext.SaveChanges() > 0)
+                return true;
+            else
+                return false;
+        }
 
     }
 }
