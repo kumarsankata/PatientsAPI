@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Patients.API.DTOs
+namespace Patients.API.Models
 {
     public class PatientRequestDto
     {
