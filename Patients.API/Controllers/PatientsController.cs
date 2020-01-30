@@ -133,5 +133,48 @@ namespace Patients.API.Controllers
             return Ok(patient);
         }
 
+
+        /// <summary>
+        /// Gets all patients list
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetPatientsPage")]
+        public IActionResult GetPatientsList([FromQuery]int currentPage = 1, [FromQuery]int pageSize = 10)
+        {
+            try
+            {
+                var patientPageList = _patientRepository.GetPatientListPage(currentPage, pageSize);
+
+                var patientResponsePageDto = new PatientResponsePageDto();
+                patientResponsePageDto.TotalRecords = patientPageList.TotalRecordsCount;
+
+                patientResponsePageDto.PatientsList = new List<PatientResponseDto>();
+                foreach (var patient in patientPageList.Patients)
+                {
+                    patientResponsePageDto.PatientsList.Add(
+                        new PatientResponseDto
+                        {
+                            Id = patient.Id,
+                            First_Name = patient.First_Name,
+                            Last_Name = patient.Last_Name,
+                            Gender = patient.Gender,
+                            Date_Of_Birth = patient.Date_Of_Birth,
+                            Email = patient.Email,
+                            Phone = patient.Phone,
+                            Is_Active = patient.Is_Active,
+                            Created_At = patient.Created_At,
+                            Updated_At = patient.Updated_At
+                        });
+                }
+
+                return Ok(patientResponsePageDto);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Unexpected error happened. Please try after sometime");
+            }
+        }
+
     }
 }

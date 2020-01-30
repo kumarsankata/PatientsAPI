@@ -1,5 +1,6 @@
 ﻿
 using Patients.API.Entities;
+using Patients.API.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Patients.API.Services
         bool AddPatient(Patient patientRequest);
 
         bool UpdatePatient(Guid patientId, Patient patientRequest);
+
+        PaginationResult GetPatientListPage(int currentPage, int pageSize);
     }
 
 }

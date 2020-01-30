@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Patients.API.Contexts;
 using Patients.API.Entities;
+using Patients.API.HelperClasses;
 
 namespace Patients.API.Services
 {
@@ -15,7 +16,6 @@ namespace Patients.API.Services
         {
             _dbContext = dbContext;
         }
-
 
         public List<Patient> GetPatientList()
         {
@@ -31,13 +31,11 @@ namespace Patients.API.Services
                 return false;
         }
 
-
         public Patient GetPatientById(Guid patientId)
         {
             var patient = _dbContext.Patients.Where(p => p.Id == patientId).FirstOrDefault();
             return patient;
         }
-
 
         public bool UpdatePatient(Guid patientId, Patient patientRequest)
         {
@@ -48,6 +46,20 @@ namespace Patients.API.Services
                 return true;
             else
                 return false;
+        }
+
+        public PaginationResult GetPatientListPage(int currentPage, int pageSize)
+        {
+            var paginationResult = new PaginationResult();
+            paginationResult.Patients = _dbContext.Patients
+                .OrderBy(p => p.First_Name)
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            paginationResult.TotalRecordsCount = _dbContext.Patients.Count();
+
+            return paginationResult;
         }
     }
 }
