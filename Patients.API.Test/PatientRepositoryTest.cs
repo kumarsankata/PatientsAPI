@@ -52,6 +52,23 @@ namespace Patients.API.Test
             Assert.AreEqual("Kumar.Sankata@pms.com", patient.Email);
         }
 
+        [TestMethod]
+        public void TestUpdatePatient()
+        {
+            var patientRepository = GetPatientRepository();
+            var patient = patientRepository.GetPatientById(new Guid("1f58b970-96f8-4976-b3eb-6b8caf02da7a"));
+
+            patient.First_Name = "Kumar111";
+            patient.Last_Name = "Sankata111";
+            patient.Email = "Kumar.Sankata@pms.com111";
+
+            bool isUpdated = patientRepository.UpdatePatient(new Guid("1f58b970-96f8-4976-b3eb-6b8caf02da7a"), patient);
+
+            Assert.IsTrue(isUpdated);
+            Assert.AreEqual("Kumar.Sankata@pms.com111", patient.Email);
+        }
+
+
         private IPatientRepository GetPatientRepository()
         {
 
