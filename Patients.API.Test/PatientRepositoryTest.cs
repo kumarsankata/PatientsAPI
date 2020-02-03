@@ -21,6 +21,29 @@ namespace Patients.API.Test
             Assert.AreEqual(1, patientsList.Count);
         }
 
+        [TestMethod]
+        public void TestAddPatient()
+        {
+            var patientRequest = new Patient()
+            {
+                First_Name = "Franks",
+                Last_Name = "Weiss",
+                Gender = "male",
+                Date_Of_Birth = Convert.ToDateTime("1997-11-08"),
+                Email = "franksweiss@portalis.com",
+                Phone = "02 94002366",
+                Is_Active = true,
+                Created_At = DateTime.UtcNow
+            };
+
+            var patientRepository = GetPatientRepository();
+            bool isPatientAdded = patientRepository.AddPatient(patientRequest);
+            Assert.IsTrue(isPatientAdded);
+
+            var patientsList = patientRepository.GetPatientList();
+            Assert.AreEqual(2, patientsList.Count);
+        }
+
 
 
         private IPatientRepository GetPatientRepository()
