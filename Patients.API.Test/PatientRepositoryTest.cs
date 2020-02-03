@@ -44,7 +44,13 @@ namespace Patients.API.Test
             Assert.AreEqual(2, patientsList.Count);
         }
 
-
+        [TestMethod]
+        public void TestGetPatientById()
+        {            
+            var patientRepository = GetPatientRepository();
+            var patient = patientRepository.GetPatientById(new Guid("1f58b970-96f8-4976-b3eb-6b8caf02da7a"));
+            Assert.AreEqual("Kumar.Sankata@pms.com", patient.Email);
+        }
 
         private IPatientRepository GetPatientRepository()
         {
@@ -72,7 +78,7 @@ namespace Patients.API.Test
                 Created_At = DateTime.UtcNow,
                 Date_Of_Birth = Convert.ToDateTime("2000-1-1"),
                 Gender = "Male",
-                Id = Guid.NewGuid(),
+                Id = new Guid("1f58b970-96f8-4976-b3eb-6b8caf02da7a"),
                 Is_Active = true,
                 Phone = "123456789"
             });
