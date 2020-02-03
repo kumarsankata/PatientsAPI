@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Patients.API.Contexts;
 using Patients.API.Entities;
 using Patients.API.HelperClasses;

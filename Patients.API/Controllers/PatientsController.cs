@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Patients.API.Contexts;
 using Patients.API.Entities;
 using Patients.API.Models;
 using Patients.API.Services;
@@ -71,10 +67,10 @@ namespace Patients.API.Controllers
             try
             {
                 if (patientRequest == null)
-                    return BadRequest();
+                    return BadRequest("Invalid JSON");
 
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return BadRequest("Invalid JSON");
 
                 var patient = new Patient()
                 {
@@ -114,10 +110,10 @@ namespace Patients.API.Controllers
             var patient = _patientRepository.GetPatientById(Id);
 
             if (patient == null)
-                return NotFound();
+                return NotFound("No such patient exists");
 
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest("Invalid JSON");
 
             patient.First_Name = patientRequest.First_Name;
             patient.Last_Name = patientRequest.Last_Name;
@@ -132,7 +128,6 @@ namespace Patients.API.Controllers
 
             return Ok(patient);
         }
-
 
         /// <summary>
         /// Gets all patients list
